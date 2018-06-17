@@ -1,6 +1,6 @@
 import Product from './models/product'
 
-export const resolvers = {
+const resolvers = {
   Query: {
     async product (_, { _id }) {
       return await Product.findOne({_id})
@@ -21,3 +21,5 @@ export const resolvers = {
     }
   }
 }
+
+export default resolvers

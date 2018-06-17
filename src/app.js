@@ -1,25 +1,19 @@
 import express from 'express'
-import graphqlHTTP from "express-graphql";
-import schema from './schema'
 import mongoose from 'mongoose'
+import { ApolloServer } from 'apollo-server-express'
+
+import typeDefs from './schema'
+import resolvers from './resolvers'
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/graphqlDB')
 
-const app = express();
-const PORT = 3000;
+const app = express()
+const path = '/graphql'
 
-app.use('/graphiql', graphqlHTTP({
-  graphiql: true,
-  schema
-}))
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app, path });
 
-app.get('/', (req, res) => {
-  return res.json({
-    msg: 'Hello, graphql here!'
-  })
-})
-
-app.listen(PORT, () => {
-  console.log(`Server is running at PORT ${PORT}`)
-})
+app.listen({ port: 4000 }, () =>
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+)

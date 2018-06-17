@@ -1,8 +1,6 @@
-import { makeExecutableSchema } from "graphql-tools";
-import { resolvers } from './resolvers'
+import { gql } from 'apollo-server-express';
 
-
-const typeDefs = `
+const typeDefs = gql`
   type Product {
     _id: ID
     name: String!
@@ -23,7 +21,4 @@ const typeDefs = `
   }
 `
 
-export default makeExecutableSchema({
-  typeDefs,
-  resolvers
-})
+export default typeDefs
